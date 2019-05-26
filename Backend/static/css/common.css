@@ -1,0 +1,53 @@
+﻿.padding-rem-05{
+    padding: 0.5rem;
+}
+
+.padding-single-center-panel{
+    padding: 5rem;
+}
+
+.field-validation-error{
+    color:red;
+}
+
+.correspondence-dimentions {
+    height: calc(100vh - 240px);
+    min-height: 400px;
+}
+
+.list-group-item:hover{
+    background-color: #fbfbfb;
+    color: #007bff !important;
+}
+
+.list-group-item {
+    color: #5a6169 !important;
+}
+
+.masthead{
+	position: relative;
+	background-color: #343a40;
+	background: url(imgs/bg-masthead.jpg) no-repeat center center;
+	background-size: cover;
+	padding-top: 8rem;
+	padding-bottom: 8rem;
+}
+
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin: auto;
+    animation: spin 2s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .displaynone{
+      display:none !important;
+  }

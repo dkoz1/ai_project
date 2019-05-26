@@ -1,0 +1,167 @@
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>CalculateIT - AI project</title>
+
+    <link href="static/css/landing-page/landing-page.min.css" rel="stylesheet">
+    <link href="static/css/common.css" rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<body>
+<!-- Masthead -->
+<header class="masthead text-white text-center">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-9 mx-auto">
+                <h1 class="mb-5 text-white">Calculate it!</h1>
+            </div>
+            <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+                <form id="calculateForm" enctype=multipart/form-data>
+                    <div class="form-row">
+                            <div class=" col-lg-12 mb-2 mb-md-0 pb-2">
+                            <input type="file" name="sourceFile" required>
+                        </div>
+                        <div class=" col-lg-12 mb-2 mb-md-0 pb-2">
+                            <label for="percentNumber">Percent of data</label>
+                            <input type="number" name="percent" id="percentNumber" min="0" max="100" value="100" step="1" class="form-control form-control-lg" placeholder="Enter user name or email...">
+                        </div>
+                        <div class=" col-lg-12 mb-2 mb-md-0 pb-2">
+                            <label for="algorithmSelect">Alhorithm</label>
+                            <select name="algorithm" class="form-control form-control-lg" id="algorithmSelect">
+                                <option value="adam">adam</option>
+                                <option value="lbfgs">lbfgs</option>
+                                <option value="sgd">sgd</option>
+                            </select>
+                        </div>
+                        <div class=" col-lg-12 mb-2 mb-md-0 pb-2">
+                            <label for="leariningRateNumber">Learning rate</label>
+                            <input type="number" step="0.1" value="0.1" name="learningRate" id="leariningRateNumber" class="form-control form-control-lg" placeholder="Enter learing rate...">
+                        </div>
+                        <div class=" col-lg-12 mb-2 mb-md-0 pb-2">
+                                <label for="maxInter">Max inter</label>
+                                <input type="number" value="1" name="maxInter" class="form-control form-control-lg" placeholder="Enter max inter...">
+                            </div>
+                        <div class="col-lg-12">
+                            <button id="sendForm" type="button" class="btn btn-block btn-lg btn-primary padding-rem-05">Run!</button>
+                            <div class="loader displaynone"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Icons Grid -->
+<section class="features-icons bg-light text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                    <div class="features-icons-icon d-flex">
+                        <i class="icon-layers m-auto text-primary material-icons">schedule</i>
+                    </div>
+                    <h3>Save your time</h3>
+                    <p class="lead mb-0">This application will save your time!</p>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
+                    <div class="features-icons-icon d-flex">
+                        <i class="icon-layers m-auto text-primary material-icons">mobile_friendly</i>
+                    </div>
+                    <h3>Fully responsive</h3>
+                    <p class="lead mb-0">Use it via our smartphone or computer!</p>
+                </div>
+            </div>            
+        </div>
+    </div>
+</section>
+<!-- Image Showcases -->
+<section class="showcase">
+    <div class="container-fluid p-0">
+        <div class="row no-gutters">
+            <div class="col-lg-6 order-lg-2 text-white showcase-img"></div>
+            <div class="col-lg-6 order-lg-1 my-auto showcase-text">
+                <h2>Easy way to calculate all you need</h2>
+                <p class="lead mb-0">The main aim of this application is. </p>
+            </div>
+        </div>
+
+    </div>
+</section>
+    <!-- Footer -->
+    <footer class="footer bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
+                <p class="text-muted small mb-4 mb-lg-0">© LukiSoftware 2019. All Rights Reserved.</p>
+            </div>
+            <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item mr-3">
+                        <a href="#">
+                            <i class="fab fa-facebook fa-2x fa-fw"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item mr-3">
+                        <a href="#">
+                            <i class="fab fa-twitter-square fa-2x fa-fw"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
+                            <i class="fab fa-instagram fa-2x fa-fw"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<script>
+    function showLoader(){
+        $('.loader').removeClass('displaynone');
+        $('#sendForm').addClass('displaynone');
+    }
+    
+    function hideLoader(){
+        $('.loader').addClass('displaynone');
+        $('#sendForm').removeClass('displaynone');
+    }
+
+    $(function(){
+        $('#sendForm').on('click', function(){
+            showLoader();
+
+            var form_data = new FormData($('#calculateForm')[0]);
+            console.log(form_data);
+            $.ajax({
+                type: 'POST',
+                url: '/run',
+                data: form_data,
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function(data) {
+                    console.log('Success!');
+                    hideLoader();
+                    //TODO implement presentation of results
+                },
+                error: function (jqXHR, textStatus) {
+                    alert('Error occured: ' + textStatus);
+                    hideLoader();
+                }
+            });
+        });
+    });
+</script>
+</body></html>

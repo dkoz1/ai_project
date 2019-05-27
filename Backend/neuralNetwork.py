@@ -39,7 +39,7 @@ class Regression(object):
 
 
 class NeuralNetwork(object):
-    def __init__(self, inputName = "train.csv", target='medv', test_size=0.2, random_state=42):
+    def __init__(self, inputName = "train.csv", target='medv', test_size=0.2, random_state=42, solver = 'adam', iterations = 1000, lr = 0.0001):
         self.df = pd.read_csv(inputName)  # read data
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.df.drop(['medv'],axis=1).values, self.df['medv'].values, test_size=test_size, random_state=random_state)
         self.y_train=self.y_train.reshape(-1,1)
@@ -52,9 +52,9 @@ class NeuralNetwork(object):
         self.y_test_scaled = self.scalerY.transform(self.y_test)
         self.network = MLPRegressor(hidden_layer_sizes=(100,100,100,100,100), #create the network 5 layers, 100 neurons each
                                              activation='relu', #state-of-art activation function
-                                             solver='adam', #optimization algorithm
-                                             max_iter=1000,
-                                             learning_rate_init=0.0001)
+                                             solver=solver, #optimization algorithm
+                                             max_iter=iterations,
+                                             learning_rate_init=lr)
         self.network.fit(self.X_train_scaled,self.y_train_scaled) #fit the data #fit the data
 
     def getPredictionTrain(self, printStats = True):
@@ -72,7 +72,21 @@ class NeuralNetwork(object):
     def predictate(self, data):
 	    return self.scalerY.inverse_transform(self.network.predict(self.scalerX.transform(data)))
 
-neural = NeuralNetwork()
+neural = NeuralNetwork(test_size=0.2)
+
+#neural = NeuralNetwork(inputName = XLSNAME, test_size=PERCENT, solver = SOLVER, iterations=MAX_ITER, lr = LEARNINGRATE)
+#regression = Regression(inputName = XLSNAME, test_size=PERCENT)
+#To get predictions for train dataset from neural network:
+#neural.getPredictionTrain()
+#To get predictions from test dataset for neural network:
+#neural.getPredictionTest()
+#To get predictions from train dataset for regression:
+#regression.getPredictionTrain()
+#To get predictions from test dataset for regression:
+#regression.getPredictionTest()
+#To get prediction for given dataset (DATA in xls format)
+#neural.predictate(DATA)
+
 regression = Regression()
 
 neuralTrainY=neural.getPredictionTrain()

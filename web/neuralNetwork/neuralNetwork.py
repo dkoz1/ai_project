@@ -7,10 +7,10 @@ from sklearn.neural_network import MLPRegressor
 from matplotlib.pyplot import scatter
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-
+ 
 class Regression(object):
     def __init__(self, csvFile, target='medv', test_size=0.2, random_state=42):
-        self.df = pd.read_csv(csvFile.stream)  # read data
+        self.df = pd.read_csv(csvFile)  # read data
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.df.drop(['medv'], axis=1).values, self.df['medv'].values, test_size=test_size, random_state=random_state)
         self.y_train=self.y_train.reshape(-1,1)
         self.y_test=self.y_test.reshape(-1,1)
@@ -35,12 +35,12 @@ class Regression(object):
             print("MSE_test: " + str(mean_squared_error(self.y_test, pred_test_nn))) #lower-better, results around 13
         return pred_test_nn
     def predictate(self, data):
-	    return self.scalerY.inverse_transform(self.regr.predict(self.scalerX.transform(data)))
-
-
+        return self.scalerY.inverse_transform(self.regr.predict(self.scalerX.transform(data)))
+ 
+ 
 class NeuralNetwork(object):
     def __init__(self, csvFile, target='medv', test_size=0.2, random_state=42, solver = 'adam', iterations = 1000, lr = 0.0001):
-        self.df = pd.read_csv(csvFile.stream)  # read data
+        self.df = pd.read_csv(csvFile)  # read data
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.df.drop(['medv'],axis=1).values, self.df['medv'].values, test_size=test_size, random_state=random_state)
         self.y_train=self.y_train.reshape(-1,1)
         self.y_test=self.y_test.reshape(-1,1)
@@ -56,7 +56,7 @@ class NeuralNetwork(object):
                                              max_iter=iterations,
                                              learning_rate_init=lr)
         self.network.fit(self.X_train_scaled,self.y_train_scaled) #fit the data #fit the data
-
+ 
     def getPredictionTrain(self, printStats = True):
         pred_train_nn=self.scalerY.inverse_transform(self.network.predict(self.X_train_scaled))
         if printStats == True:
@@ -70,5 +70,4 @@ class NeuralNetwork(object):
             print("MSE_test: " + str(mean_squared_error(self.y_test, pred_test_nn))) #lower-better, results around 13
         return pred_test_nn
     def predictate(self, data):
-	    return self.scalerY.inverse_transform(self.network.predict(self.scalerX.transform(data)))
-
+        return self.scalerY.inverse_transform(self.network.predict(self.scalerX.transform(data)))

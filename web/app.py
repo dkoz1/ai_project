@@ -38,6 +38,12 @@ def run():
     app.logger.info(neural.y_train-neuralTrainY)
     app.logger.info(regression.y_train-regressionTrainY)
    
+    vectorWithOriginalY = neural.y_train
+    vectorWithPredictedNetworkY = neuralTrainY
+    vectorWithPredictedRegressionY = regression.y_train
+    vectorWithErrorForNetwork = neural.y_train-neuralTrainY
+    vectorWithErrorForRegression = regression.y_train-regressionTrainY
+
 
     #TODO: return vectors in json  
     

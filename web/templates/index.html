@@ -10,7 +10,7 @@
     <!-- Bootstrap core CSS -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+    <link rel="stylesheet" type="text/css" href="static/css/Chart.min.css">
 <body>
 <!-- Masthead -->
 <header class="masthead text-white text-center">
@@ -57,6 +57,12 @@
     </div>
 </header>
 <!-- Icons Grid -->
+<div id="results" class="displaynone text-center">
+    <canvas id="firstChart"></canvas>
+    <canvas id="secondChart"></canvas>
+    <canvas id="thirdChart"></canvas>
+    <canvas id="fourthChart"></canvas>
+</div>
 <section class="features-icons bg-light text-center">
     <div class="container">
         <div class="row">
@@ -98,10 +104,10 @@
     <footer class="footer bg-light">
     <div class="container">
         <div class="row">
-            <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
+            <div class="col-lg-6 text-center text-lg-left my-auto">
                 <p class="text-muted small mb-4 mb-lg-0">© LukiSoftware 2019. All Rights Reserved.</p>
             </div>
-            <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
+            <div class="col-lg-6 text-center text-lg-right my-auto">
                 <ul class="list-inline mb-0">
                     <li class="list-inline-item mr-3">
                         <a href="#">
@@ -126,6 +132,11 @@
 
 <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="static/scripts/Chart.min.js"></script>
+
+
+
+
 
 <script>
     function showLoader(){
@@ -136,6 +147,11 @@
     function hideLoader(){
         $('.loader').addClass('displaynone');
         $('#sendForm').removeClass('displaynone');
+    }
+
+    function resetResults(){
+        $('#results').html('<canvas id="firstChart"></canvas><canvas id="secondChart"></canvas><canvas id="thirdChart"></canvas><canvas id="fourthChart"></canvas>');
+        $('#results').removeClass('displaynone');
     }
 
     $(function(){
@@ -153,11 +169,205 @@
                 processData: false,
                 success: function(data) {
                     console.log('Success!');
+                    console.log(data);
                     hideLoader();
                     //TODO implement presentation of results
+
+                    resetResults();
+                    var ctx = document.getElementById('firstChart').getContext('2d');
+                    var myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            datasets: [{
+                                data: data.vectorWithOriginalYTRAIN,
+                                label: 'vectorWithOriginalYTRAIN',
+                                borderColor: '#ff00ff',
+                                pointStyle: 'circle',
+                                yAxisID: 'left-y-axis',
+                                fill: false
+
+                            }, {
+                                data: data.vectorWithPredictedNetworkYTRAIN,
+                                label: 'vectorWithPredictedNetworkYTRAIN',
+                                borderColor: '#2DF7F1',                            
+                                yAxisID: 'left-y-axis',
+                                pointStyle: 'circle',
+                                fill: false
+
+                            },{
+                                data: data.vectorWithPredictedRegressionYTRAIN,
+                                label: 'vectorWithPredictedRegressionYTRAIN',
+                                borderColor: '#17E539',
+                                pointStyle: 'circle',
+                                yAxisID: 'left-y-axis',
+                                fill: false
+
+                            }],
+                            labels: Array(data.vectorWithOriginalYTRAIN.length).fill("")
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    id: 'left-y-axis',
+                                    type: 'linear',
+                                    position: 'left'
+                                }, {
+                                    id: 'right-y-axis',
+                                    type: 'linear',
+                                    position: 'right'
+                                }]
+                            },
+                            title: {
+                                display: true,
+                                text: 'Porównanie wyjsciowych Y dla danych treningowych',
+                                fontSize: 24
+                            }
+                        }
+                    });
+
+                    var ctx = document.getElementById('secondChart').getContext('2d');
+                        var myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            datasets: [{
+                                data: data.vectorWithErrorForNetworkTRAIN,
+                                label: 'vectorWithErrorForNetworkTRAIN',
+                                borderColor: '#ff00ff',
+
+                                // This binds the dataset to the left y axis
+                                yAxisID: 'left-y-axis',
+                                fill: false
+
+                            }, {
+                                data: data.vectorWithErrorForRegressionTRAIN,
+                                label: 'vectorWithErrorForRegressionTRAIN',
+                                borderColor: '#2DF7F1',                            
+                                // This binds the dataset to the right y axis
+                                yAxisID: 'left-y-axis',
+                                fill: false
+
+                            }],
+                            labels: Array(data.vectorWithErrorForRegressionTRAIN.length).fill("")
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    id: 'left-y-axis',
+                                    type: 'linear',
+                                    position: 'left'
+                                }, {
+                                    id: 'right-y-axis',
+                                    type: 'linear',
+                                    position: 'right'
+                                }]
+                            },
+                            title: {
+                                display: true,
+                                text: 'Porównanie błędu neural i regresji względem oryginalnych danych (dla danych treningowych)',
+                                fontSize: 24
+                            }
+                        }
+                    });
+
+                    var ctx = document.getElementById('thirdChart').getContext('2d');
+                    var myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            datasets: [{
+                                data: data.vectorWithOriginalYTEST,
+                                label: 'vectorWithOriginalYTEST',
+                                borderColor: '#ff00ff',
+
+                                // This binds the dataset to the left y axis
+                                yAxisID: 'left-y-axis',
+                                fill: false
+
+                            }, {
+                                data: data.vectorWithPredictedNetworkYTEST,
+                                label: 'vectorWithPredictedNetworkYTEST',
+                                borderColor: '#2DF7F1',                            
+                                // This binds the dataset to the right y axis
+                                yAxisID: 'left-y-axis',
+                                fill: false
+
+                            },{
+                                data: data.vectorWithPredictedRegressionYTEST,
+                                label: 'vectorWithPredictedRegressionYTEST',
+                                borderColor: '#17E539',
+                                // This binds the dataset to the left y axis
+                                yAxisID: 'left-y-axis',
+                                fill: false
+
+                            }],
+                            labels: Array(data.vectorWithOriginalYTEST.length).fill("")
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    id: 'left-y-axis',
+                                    type: 'linear',
+                                    position: 'left'
+                                }, {
+                                    id: 'right-y-axis',
+                                    type: 'linear',
+                                    position: 'right'
+                                }]
+                            },
+                            title: {
+                                display: true,
+                                text: 'Porownanie wyjściowych Y dla danych testowych',
+                                fontSize : 24
+                            }
+                        }
+                    });
+
+
+                    var ctx = document.getElementById('fourthChart').getContext('2d');
+                        var myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            datasets: [{
+                                data: data.vectorWithErrorForNetworkTEST,
+                                label: 'vectorWithErrorForNetworkTEST',
+                                borderColor: '#ff00ff',
+
+                                // This binds the dataset to the left y axis
+                                yAxisID: 'left-y-axis',
+                                fill: false
+
+                            }, {
+                                data: data.vectorWithErrorForRegressionTEST,
+                                label: 'vectorWithErrorForRegressionTEST',
+                                borderColor: '#2DF7F1',                            
+                                // This binds the dataset to the right y axis
+                                yAxisID: 'left-y-axis',
+                                fill: false
+
+                            }],
+                            labels: Array(data.vectorWithErrorForNetworkTEST.length).fill("")
+                        },
+                        options: {
+                            scales: {
+                                yAxes: [{
+                                    id: 'left-y-axis',
+                                    type: 'linear',
+                                    position: 'left'
+                                }, {
+                                    id: 'right-y-axis',
+                                    type: 'linear',
+                                    position: 'right'
+                                }]
+                            },
+                            title: {
+                                display: true,
+                                text: 'Porównanie błędu neural i regresji wzgledem oryginalnych danych (dla danych testowych)',
+                                fontSize : 24
+                            }
+                        }
+                    });                    
                 },
                 error: function (jqXHR, textStatus) {
-                    alert('Error occured: ' + textStatus);
+                    console.log('Error occured: ' + textStatus);
                     hideLoader();
                 }
             });

@@ -32,18 +32,30 @@ def run():
    
     neuralTrainY=neural.getPredictionTrain()
     regressionTrainY=regression.getPredictionTrain()
+
+    neuralTestY=neural.getPredictionTest()
+    regressionTestY=regression.getPredictionTest()
  
     #TODO: add calculation all vectors for plotting 
  
     app.logger.info(neural.y_train-neuralTrainY)
     app.logger.info(regression.y_train-regressionTrainY)
-   
-    vectorWithOriginalY = neural.y_train
-    vectorWithPredictedNetworkY = neuralTrainY
-    vectorWithPredictedRegressionY = regression.y_train
-    vectorWithErrorForNetwork = neural.y_train-neuralTrainY
-    vectorWithErrorForRegression = regression.y_train-regressionTrainY
+    
+    #first plot - porownanie wyjsciowych Y dla danych treningowych (wektory po kolei: y oryginalne, y neural, y regrsja)
+    vectorWithOriginalYTRAIN = neural.y_train
+    vectorWithPredictedNetworkYTRAIN = neuralTrainY
+    vectorWithPredictedRegressionYTRAIN = regressionTrainY
+    #second plot - porownanie bledu neural i regresji wzgledem oryginalnych danych (dla danych treningowych)
+    vectorWithErrorForNetworkTRAIN = neural.y_train-neuralTrainY
+    vectorWithErrorForRegressionTRAIN = regression.y_train-regressionTrainY
 
+    #third plot - porownanie wyjsciowych Y dla danych testowych (wektory po kolei: y oryginalne, y neural, y regrsja)
+    vectorWithOriginalYTEST = neural.y_test
+    vectorWithPredictedNetworkYTEST = neuralTestY
+    vectorWithPredictedRegressionYTEST = regressionTestY
+    #fourth plot - porownanie bledu neural i regresji wzgledem oryginalnych danych (dla danych testowych)
+    vectorWithErrorForNetworkTEST = neural.y_test-neuralTestY
+    vectorWithErrorForRegressionTEST = regression.y_test-regressionTestY
 
     #TODO: return vectors in json  
     

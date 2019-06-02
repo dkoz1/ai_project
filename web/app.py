@@ -2,6 +2,12 @@ import logging
 from flask import Flask, render_template, json, request
 from neuralNetwork.neuralNetwork import Regression, NeuralNetwork
  
+def convert_many_single_elemen_arrays_to_one_array(array_of_arrays):
+    output = []
+    for i in array_of_arrays.tolist():
+        output.append(i[0])
+    return output
+
 app = Flask(__name__)
  
 @app.route('/')
@@ -18,37 +24,52 @@ def run():
    
     #TODO: add validation(optional)
 
-    app.logger.info(learning_rate)
-    app.logger.info(max_inter)
-    app.logger.info(algorithm)
-    app.logger.info(percent)
-    app.logger.info(file)
-   
-   #TODO: change train.csv for stream from request 
+    #TODO: change train.csv for stream from request 
     neural = NeuralNetwork(csvFile = "train.csv", test_size=percent, solver = algorithm, iterations=max_inter, lr = learning_rate)
     regression = Regression(csvFile = "train.csv", test_size=percent)
-
- 
    
     neuralTrainY=neural.getPredictionTrain()
     regressionTrainY=regression.getPredictionTrain()
- 
-    #TODO: add calculation all vectors for plotting 
- 
-    app.logger.info(neural.y_train-neuralTrainY)
-    app.logger.info(regression.y_train-regressionTrainY)
-   
-    vectorWithOriginalY = neural.y_train
-    vectorWithPredictedNetworkY = neuralTrainY
-    vectorWithPredictedRegressionY = regression.y_train
-    vectorWithErrorForNetwork = neural.y_train-neuralTrainY
-    vectorWithErrorForRegression = regression.y_train-regressionTrainY
 
+    neuralTestY=neural.getPredictionTest()
+    regressionTestY=regression.getPredictionTest()
+ 
+    #calculation all vectors for plotting 
 
-    #TODO: return vectors in json  
+    #third plot - porownanie wyjsciowych Y dla danych testowych (wektory po kolei: y oryginalne, y neural, y regrsja)
+    vectorWithOriginalYTEST = neural.y_test
+    vectorWithPredictedNetworkYTEST = neuralTestY
+    vectorWithPredictedRegressionYTEST = regressionTestY
+    #fourth plot - porownanie bledu neural i regresji wzgledem oryginalnych danych (dla danych testowych)
+    vectorWithErrorForNetworkTEST = neural.y_test-neuralTestY
+    vectorWithErrorForRegressionTEST = regression.y_test-regressionTestY
     
+    vectorWithOriginalYTRAIN = convert_many_single_elemen_arrays_to_one_array(vectorWithOriginalYTRAIN)
+    vectorWithPredictedNetworkYTRAIN = convert_many_single_elemen_arrays_to_one_array(vectorWithPredictedNetworkYTRAIN)
+    vectorWithPredictedRegressionYTRAIN = convert_many_single_elemen_arrays_to_one_array(vectorWithPredictedRegressionYTRAIN)
+    vectorWithErrorForNetworkTRAIN = convert_many_single_elemen_arrays_to_one_array(vectorWithErrorForNetworkTRAIN)
+    vectorWithErrorForRegressionTRAIN = convert_many_single_elemen_arrays_to_one_array(vectorWithErrorForRegressionTRAIN)
+    vectorWithOriginalYTEST = convert_many_single_elemen_arrays_to_one_array(vectorWithOriginalYTEST)
+    vectorWithPredictedNetworkYTEST = convert_many_single_elemen_arrays_to_one_array(vectorWithPredictedNetworkYTEST)
+    vectorWithPredictedRegressionYTEST = convert_many_single_elemen_arrays_to_one_array(vectorWithPredictedRegressionYTEST)
+    vectorWithErrorForNetworkTEST = convert_many_single_elemen_arrays_to_one_array(vectorWithErrorForNetworkTEST)
+    vectorWithErrorForRegressionTEST = convert_many_single_elemen_arrays_to_one_array(vectorWithErrorForRegressionTEST)
+
+
+    dic = {}
+    dic['vectorWithOriginalYTRAIN'] = vectorWithOriginalYTRAIN
+    dic['vectorWithPredictedNetworkYTRAIN'] = vectorWithPredictedNetworkYTRAIN
+    dic['vectorWithPredictedRegressionYTRAIN'] = vectorWithPredictedRegressionYTRAIN
+    dic['vectorWithErrorForNetworkTRAIN'] = vectorWithErrorForNetworkTRAIN
+    dic['vectorWithErrorForRegressionTRAIN'] = vectorWithErrorForRegressionTRAIN
+    dic['vectorWithOriginalYTEST'] = vectorWithOriginalYTEST
+    dic['vectorWithPredictedNetworkYTEST'] = vectorWithPredictedNetworkYTEST
+    dic['vectorWithPredictedRegressionYTEST'] = vectorWithPredictedRegressionYTEST
+    dic['vectorWithErrorForNetworkTEST'] = vectorWithErrorForNetworkTEST
+    dic['vectorWithErrorForRegressionTEST'] = vectorWithErrorForRegressionTEST
+
     response = app.response_class(
-        response=json.dumps("data"),
+        response=json.dumps(dic),
         status=200,
         mimetype='application/json'
     )

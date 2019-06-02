@@ -62,13 +62,13 @@ class NeuralNetwork(object):
         if printStats == True:
             print("R2_train: " + str(r2_score(self.y_train, pred_train_nn))) #higher-better, values from 0 to 1, result around 0.98
             print("MSE_train: " + str(mean_squared_error(self.y_train, pred_train_nn))) #lower-better, results around 1.3
-        return pred_train_nn
+        return pred_train_nn.reshape(-1,1)
     def getPredictionTest(self, printStats = True):
         pred_test_nn=self.scalerY.inverse_transform(self.network.predict(self.X_test_scaled)) #get predictions for the test dataa
         if printStats == True:
             print("R2_test: " + str(r2_score(self.y_test, pred_test_nn))) #higher-better, values from 0 to 1, result around 0.85
             print("MSE_test: " + str(mean_squared_error(self.y_test, pred_test_nn))) #lower-better, results around 13
-        return pred_test_nn
+        return pred_test_nn.reshape(-1,1)
     def predictate(self, data):
 	    return self.scalerY.inverse_transform(self.network.predict(self.scalerX.transform(data)))
 

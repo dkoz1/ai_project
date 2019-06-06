@@ -21,11 +21,11 @@
                 <h1 class="mb-5 text-white">Calculate it!</h1>
             </div>
             <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-                <form id="calculateForm" enctype=multipart/form-data>
-                    <div class="form-row">
+                <form id="calculateForm" enctype="multipart/form-data">
+                    <!--<div class="form-row">
                             <div class=" col-lg-12 mb-2 mb-md-0 pb-2">
                             <input type="file" name="sourceFile" required>
-                        </div>
+                        </div>--->
                         <div class=" col-lg-12 mb-2 mb-md-0 pb-2">
                             <label for="percentNumber">Percent of data</label>
                             <input type="number" name="percent" id="percentNumber" min="1" max="99" value="40" step="1" class="form-control form-control-lg" placeholder="Enter user name or email...">
@@ -87,25 +87,13 @@
         </div>
     </div>
 </section>
-<!-- Image Showcases -->
-<section class="showcase">
-    <div class="container-fluid p-0">
-        <div class="row no-gutters">
-            <div class="col-lg-6 order-lg-2 text-white showcase-img"></div>
-            <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-                <h2>Easy way to calculate all you need</h2>
-                <p class="lead mb-0">The main aim of this application is. </p>
-            </div>
-        </div>
 
-    </div>
-</section>
     <!-- Footer -->
     <footer class="footer bg-light">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 text-center text-lg-left my-auto">
-                <p class="text-muted small mb-4 mb-lg-0">© LukiSoftware 2019. All Rights Reserved.</p>
+                <p class="text-muted small mb-4 mb-lg-0">© AI 2019. All Rights Reserved.</p>
             </div>
             <div class="col-lg-6 text-center text-lg-right my-auto">
                 <ul class="list-inline mb-0">
@@ -158,12 +146,12 @@
         $('#sendForm').on('click', function(){
             showLoader();
 
-            var form_data = new FormData($('#calculateForm')[0]);
-            console.log(form_data);
+            var formData = new FormData($('#calculateForm')[0]);
+            console.log(formData);
             $.ajax({
                 type: 'POST',
                 url: '/run',
-                data: form_data,
+                data: formData,
                 contentType: false,
                 cache: false,
                 processData: false,

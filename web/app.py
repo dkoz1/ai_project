@@ -16,7 +16,7 @@ def index():
  
 @app.route('/run', methods=["POST"])
 def run():
-    file = request.files['sourceFile']
+    #file = request.files['sourceFile']
     learning_rate = float(request.form['learningRate'])
     max_inter = int(request.form['maxInter'])
     algorithm = request.form['algorithm']
@@ -35,6 +35,14 @@ def run():
     regressionTestY=regression.getPredictionTest()
  
     #calculation all vectors for plotting 
+
+    #first plot - porownanie wyjsciowych Y dla danych treningowych (wektory po kolei: y oryginalne, y neural, y regrsja)
+    vectorWithOriginalYTRAIN = neural.y_train
+    vectorWithPredictedNetworkYTRAIN = neuralTrainY
+    vectorWithPredictedRegressionYTRAIN = regressionTrainY
+    #second plot - porownanie bledu neural i regresji wzgledem oryginalnych danych (dla danych treningowych)
+    vectorWithErrorForNetworkTRAIN = neural.y_train-neuralTrainY
+    vectorWithErrorForRegressionTRAIN = regression.y_train-regressionTrainY
 
     #third plot - porownanie wyjsciowych Y dla danych testowych (wektory po kolei: y oryginalne, y neural, y regrsja)
     vectorWithOriginalYTEST = neural.y_test
